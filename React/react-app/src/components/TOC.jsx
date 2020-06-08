@@ -11,6 +11,7 @@ class TOC extends Component {
         <a href={"/content/"+data[i].id}>{data[i].title}</a>
       </li>
       );
+      i++;
     }
     return (
       <nav>
