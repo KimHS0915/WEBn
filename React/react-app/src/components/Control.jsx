@@ -8,6 +8,11 @@ class Control extends Component {
           e.preventDefault();
           this.props.onChangeMode('create');
         }}>Create</a>
+        <br></br>
+        <a href="/update" onClick={(e) => {
+          e.preventDefault();
+          this.props.onChangeMode('update');
+        }}>Update</a>
       </div>
     );
   }
