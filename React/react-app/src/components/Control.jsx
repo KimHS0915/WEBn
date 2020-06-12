@@ -9,15 +9,15 @@ class Control extends Component {
           this.props.onChangeMode('create');
         }}>Create</a>
         &nbsp;
-        <a href="/update" onClick={(e) => {
+        {this.props.select && <a href="/update" onClick={(e) => {
           e.preventDefault();
           this.props.onChangeMode('update');
-        }}>Update</a>
+        }}>Update</a>}
         &nbsp;
-        <input onClick={(e) => {
+        {this.props.select && <input onClick={(e) => {
           e.preventDefault();
           this.props.onChangeMode('delete');
-        }} type="button" value="delete"></input>
+        }} type="button" value="delete"></input>}
       </div>
     );
   }

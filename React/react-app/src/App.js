@@ -13,7 +13,7 @@ class App extends Component {
     this.max_content_id = 3;
     this.state = {
       mode: 'welcome',
-      selected_content_id: 1,
+      selected_content_id: null,
       subject: {title: 'WEB', sub: 'World Wide Web!'},
       welcome: {title: 'Welcome', desc: 'Hello, React!'},
       contents: [
@@ -30,7 +30,6 @@ class App extends Component {
       let data = this.state.contents[i];
       if(data.id === this.state.selected_content_id) {
         return data;
-        break;
       }
       i++;
     }
@@ -87,6 +86,7 @@ class App extends Component {
           onChangePage={() => {
             this.setState({
               mode: 'welcome',
+              selected_content_id: null,
             });
           }}
         >
@@ -100,30 +100,33 @@ class App extends Component {
           }}
           data={this.state.contents}
         ></TOC>
-        <Control onChangeMode={_mode => {
-          if(_mode === 'delete') {
-            if(window.confirm('Are You sure?')) {
-              let _contents = Array.from(this.state.contents);
-              let i = 0;
-              while(i < _contents.length) {
-                if(_contents[i].id === this.state.selected_content_id) {
-                  _contents.splice(i, 1);
-                  break;
+        <Control 
+          select={this.state.selected_content_id} 
+          onChangeMode={_mode => {
+            if(_mode === 'delete') {
+              if(window.confirm('Are You sure?')) {
+                let _contents = Array.from(this.state.contents);
+                let i = 0;
+                while(i < _contents.length) {
+                  if(_contents[i].id === this.state.selected_content_id) {
+                    _contents.splice(i, 1);
+                    break;
+                  }
+                  i++;
                 }
-                i++;
+                this.setState({
+                  mode: 'welcome',
+                  contents: _contents,
+                  selected_content_id: null,
+                });
+                alert('deleted')
               }
+            } else {
               this.setState({
-                mode: 'welcome',
-                contents: _contents,
+                mode: _mode,
               });
-              alert('deleted')
             }
-          } else {
-            this.setState({
-              mode: _mode
-            });
-          }
-        }}></Control>
+          }}></Control>
         {this.getContent()}
       </div>
     );
