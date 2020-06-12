@@ -65,8 +65,9 @@ class App extends Component {
         while(i < _contents.length) {
           if(_contents[i].id === _id) {
             _contents[i] = {id: _id, title: _title, desc: _desc};
-            break
+            break;
           }
+          i++;
         }
         this.setState({
           contents: _contents,
