@@ -10,7 +10,7 @@ function FuncComp(props) {
     useEffect(() => {
       console.log('%cfunc => useEffect (componentDidMount) ' + (++funcId), funcStyle);
       return () => {
-        console.log('%cfunc => useEffect return (componentWillUnMount) ' + (++funcId), funcStyle); 
+        console.log('%cfunc => useEffect return (componentWillUnmount) ' + (++funcId), funcStyle); 
       }
     }, []);
 

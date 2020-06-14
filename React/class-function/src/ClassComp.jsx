@@ -28,6 +28,10 @@ class ClassComp extends Component {
     componentDidUpdate() {
       console.log('%cclass => componentDidUpdate', classStyle);
     }
+
+    componentWillUnmount() {
+      console.log('%cclass => componentWillUnmount', classStyle);
+    }
   
     render() {
       console.log('%cclass -> render', classStyle);
