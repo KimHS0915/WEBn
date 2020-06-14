@@ -1,12 +1,37 @@
 import React, { Component } from 'react';
 
+const classStyle = 'color:red';
+
 class ClassComp extends Component {
     state = {
       number: this.props.initNumber,
       time: (new Date()).toLocaleTimeString(),
     }
+
+    componentWillMount() {
+      console.log('%cclass => componentWillMount', classStyle);
+    }
+
+    componentDidMount() {
+      console.log('%cclass => componentDidMount', classStyle);
+    }
+
+    shouldComponentUpdate() {
+      console.log('%cclass => shouldComponentUpdate', classStyle);
+      return true;
+    }
+
+    componentWillUpdate() {
+      console.log('%cclass => componentWillUpdate', classStyle);
+    }
+
+    componentDidUpdate() {
+      console.log('%cclass => componentDidUpdate', classStyle);
+    }
   
     render() {
+      console.log('%cclass -> render', classStyle);
+
       return (
         <div className="container">
           <h2>class style component</h2>
