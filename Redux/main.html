@@ -45,35 +45,74 @@
         const control = () => {
             document.querySelector('#control').innerHTML = `
             <ul>
-                <li><a href="/create">Create</a></li>
+                <li>
+                    <a onclick="
+                    event.preventDefault();
+                    store.dispatch({
+                        type: 'CHANGE_MODE',
+                        mode: 'create',
+                    })
+                    " href="/create">
+                    Create
+                    </a>
+                </li>
                 <li><input type="button" value="delete"></li>
             </ul>
             `;
         }
         const article = () => {
             const state = store.getState();
-            let i = 0;
-            let articleTitle, articleDesc;
-            while(i < state.contents.length) {
-                if(state.contents[i].id === state.selected_id) {
-                    articleTitle = state.contents[i].title;
-                    articleDesc = state.contents[i].desc;
-                    break;
-                }
-                i++
-            }
-            if(state.selected_id) {
+            if(state.mode === 'create') {
                 document.querySelector('#content').innerHTML = `
                 <article>
-                    <h2>${articleTitle}</h2>
-                    ${articleDesc}
+                    <form onsubmit="
+                        event.preventDefault();
+                        const title = this.title.value;
+                        const desc = this.desc.value;
+                        store.dispatch({
+                            type: 'CREATE',
+                            title: title,
+                            desc: desc,
+                        })
+                    ">
+                        <p>
+                            <input type="text" name="title" placeholder="title">
+                        </p>
+                        <p>
+                            <textarea name="desc" placeholder="description"></textarea>
+                        </p>
+                        <p>
+                            <input type="submit">
+                        </p>
+                    </form>
                 </article>
-                `;
+                `
+            } else if(state.mode === 'read') {
+                let i = 0;
+                let articleTitle, articleDesc;
+                while(i < state.contents.length) {
+                    if(state.contents[i].id === state.selected_id) {
+                        articleTitle = state.contents[i].title;
+                        articleDesc = state.contents[i].desc;
+                        break;
+                    }
+                    i++
+                }
+                if(state.selected_id) {
+                    document.querySelector('#content').innerHTML = `
+                    <article>
+                        <h2>${articleTitle}</h2>
+                        ${articleDesc}
+                    </article>
+                    `;
+                }                
             }
         }
         const reducer = (state, action) => {
             if(state === undefined) {
                 return {
+                    max_id: 2,
+                    mode: 'read',
                     selected_id: null,
                     contents: [
                         {id: 1, title: 'HTML', desc: 'HTML is ..'},
@@ -84,11 +123,25 @@
             let newState;
             if(action.type === 'SELECT') {
                 newState = Object.assign({}, state, {selected_id: action.id});
+            } else if(action.type === 'CREATE') {
+                const newMaxId = state.max_id + 1;
+                const newContents = state.contents.concat();
+                newContents.push({id: newMaxId, title: action.title, desc: action.desc})
+                newState = Object.assign({}, state, {
+                    max_id: newMaxId,
+                    contents: newContents,
+                    mode: 'read',
+                });
+            } else if(action.type === 'CHANGE_MODE') {
+                newState = Object.assign({}, state, {
+                    mode: action.mode,
+                });
             }
             return newState;
         }
         const store = Redux.createStore(reducer);
         store.subscribe(article);
+        store.subscribe(TOC);
         subject();
         TOC();
         control();
