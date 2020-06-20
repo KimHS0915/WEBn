@@ -57,6 +57,17 @@
                     </a>
                 </li>
                 <li>
+                    <a onclick="
+                    event.preventDefault();
+                    store.dispatch({
+                        type: 'CHANGE_MODE',
+                        mode: 'update',
+                    })
+                    " href="/update">
+                    Update
+                    </a>
+                </li>
+                <li>
                     <input onclick="
                     store.dispatch({
                         type: 'DELETE'
@@ -117,6 +128,43 @@
                     Hello, Redux!
                 </article>
                 `;
+            } else if(state.mode === 'update') {
+                let i = 0;
+                let articleTitle, articleDesc;
+                while(i < state.contents.length) {
+                    if(state.contents[i].id === state.selected_id) {
+                        articleTitle = state.contents[i].title;
+                        articleDesc = state.contents[i].desc;
+                        break;
+                    }
+                    i++
+                }
+                document.querySelector('#content').innerHTML = `
+                <article>
+                    <h2>${articleTitle}</h2>
+                    ${articleDesc}
+                    <form onsubmit="
+                        event.preventDefault();
+                        const title = this.title.value;
+                        const desc = this.desc.value;
+                        store.dispatch({
+                            type: 'UPDATE',
+                            title: title,
+                            desc: desc,
+                        });
+                    ">
+                        <p>
+                            <input type="text" name="title" placeholder="title">
+                        </p>
+                        <p>
+                            <textarea name="desc" placeholder="description"></textarea>
+                        </p>
+                        <p>
+                            <input type="submit">
+                        </p>
+                    </form>
+                </article>
+                `;
             }
         }
         const reducer = (state, action) => {
@@ -168,6 +216,25 @@
                     contents: newContents,
                     mode: 'welcome',
                 })
+            } else if(action.type === 'UPDATE') {
+                newContents = state.contents.concat();
+                let i = 0;
+                while(i < state.contents.length) {
+                    if(state.selected_id === state.contents[i].id) {
+                        newContents[i] = {
+                            id: state.selected_id, 
+                            title: action.title, 
+                            desc: action.desc}
+                        break;
+                    }
+                    i++;
+                }
+                newState = Object.assign({}, state, {
+                    max_id: state.max_id,
+                    contents: newContents,
+                    mode: 'read',
+                    selected_id: state.selected_id,
+                });
             }
             return newState;
         }
