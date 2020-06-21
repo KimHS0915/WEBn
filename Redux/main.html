@@ -44,37 +44,33 @@
         }
         const control = () => {
             document.querySelector('#control').innerHTML = `
-            <ul>
-                <li>
-                    <a onclick="
-                    event.preventDefault();
-                    store.dispatch({
-                        type: 'CHANGE_MODE',
-                        mode: 'create',
-                    })
-                    " href="/create">
-                    Create
-                    </a>
-                </li>
-                <li>
-                    <a onclick="
-                    event.preventDefault();
-                    store.dispatch({
-                        type: 'CHANGE_MODE',
-                        mode: 'update',
-                    })
-                    " href="/update">
-                    Update
-                    </a>
-                </li>
-                <li>
-                    <input onclick="
-                    store.dispatch({
-                        type: 'DELETE'
-                    })            
-                    "type="button" value="delete">
-                </li>
-            </ul>
+            <div>
+                <a onclick="
+                event.preventDefault();
+                store.dispatch({
+                    type: 'CHANGE_MODE',
+                    mode: 'create',
+                })
+                " href="/create">
+                Create
+                </a>
+                &nbsp;
+                <a onclick="
+                event.preventDefault();
+                store.dispatch({
+                    type: 'CHANGE_MODE',
+                    mode: 'update',
+                })
+                " href="/update">
+                Update
+                </a>
+                &nbsp;
+                <input onclick="
+                store.dispatch({
+                    type: 'DELETE'
+                })            
+                "type="button" value="delete">
+            </div>
             `;
         }
         const article = () => {
@@ -129,42 +125,46 @@
                 </article>
                 `;
             } else if(state.mode === 'update') {
-                let i = 0;
-                let articleTitle, articleDesc;
-                while(i < state.contents.length) {
-                    if(state.contents[i].id === state.selected_id) {
-                        articleTitle = state.contents[i].title;
-                        articleDesc = state.contents[i].desc;
-                        break;
+                if(state.selected_id) {
+                    let i = 0;
+                    let articleTitle, articleDesc;
+                    while(i < state.contents.length) {
+                        if(state.contents[i].id === state.selected_id) {
+                            articleTitle = state.contents[i].title;
+                            articleDesc = state.contents[i].desc;
+                            break;
+                        }
+                        i++
                     }
-                    i++
+                    document.querySelector('#content').innerHTML = `
+                    <article>
+                        <h2>${articleTitle}</h2>
+                        ${articleDesc}
+                        <form onsubmit="
+                            event.preventDefault();
+                            const title = this.title.value;
+                            const desc = this.desc.value;
+                            store.dispatch({
+                                type: 'UPDATE',
+                                title: title,
+                                desc: desc,
+                            });
+                        ">
+                            <p>
+                                <input type="text" name="title" placeholder="title">
+                            </p>
+                            <p>
+                                <textarea name="desc" placeholder="description"></textarea>
+                            </p>
+                            <p>
+                                <input type="submit">
+                            </p>
+                        </form>
+                    </article>
+                    `;
+                } else {
+                    alert('Select article');
                 }
-                document.querySelector('#content').innerHTML = `
-                <article>
-                    <h2>${articleTitle}</h2>
-                    ${articleDesc}
-                    <form onsubmit="
-                        event.preventDefault();
-                        const title = this.title.value;
-                        const desc = this.desc.value;
-                        store.dispatch({
-                            type: 'UPDATE',
-                            title: title,
-                            desc: desc,
-                        });
-                    ">
-                        <p>
-                            <input type="text" name="title" placeholder="title">
-                        </p>
-                        <p>
-                            <textarea name="desc" placeholder="description"></textarea>
-                        </p>
-                        <p>
-                            <input type="submit">
-                        </p>
-                    </form>
-                </article>
-                `;
             }
         }
         const reducer = (state, action) => {
@@ -201,20 +201,33 @@
                     mode: action.mode,
                 });
             } else if(action.type === 'DELETE') {
-                newContents = [];
-                let i = 0;
-                while(i < state.contents.length) {
-                    if(state.selected_id !== state.contents[i].id) {
-                        newContents.push(
-                            state.contents[i]
-                        );
+                if(state.selected_id) {
+                    if(window.confirm('Are You sure?')) {
+                        newContents = [];
+                        let i = 0;
+                        while(i < state.contents.length) {
+                            if(state.selected_id !== state.contents[i].id) {
+                                newContents.push(
+                                    state.contents[i]
+                                );
+                            }
+                            i++;
+                        }
+                        newState = Object.assign({}, state, {
+                            contents: newContents,
+                            mode: 'welcome',
+                        });
+                    } else {
+                        newState = Object.assign({}, state, {
+                            mode: 'read',
+                        });
                     }
-                    i++;
+                } else {
+                    alert('Select article');
+                    newState = Object.assign({}, state, {
+                        mode: 'welcome',
+                    });
                 }
-                newState = Object.assign({}, state, {
-                    contents: newContents,
-                    mode: 'welcome',
-                })
             } else if(action.type === 'UPDATE') {
                 newContents = state.contents.concat();
                 let i = 0;
