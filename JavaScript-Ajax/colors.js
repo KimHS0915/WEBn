@@ -1,23 +1,23 @@
-var links = {
-  setcolor:function (color){
-    var alist = document.querySelectorAll('a');
-    var i = 0;
+const links = {
+  setcolor: (color) => {
+    const alist = document.querySelectorAll('a');
+    let i = 0;
     while(i < alist.length){
       alist[i].style.color = color;
       i = i + 1;
     }
   }
 }
-var body = {
-  setcolor:function (color){
+const body = {
+  setcolor: (color) => {
     document.querySelector('body').style.color = color;
   },
-  setbackgroundcolor:function (color){
+  setbackgroundcolor: (color) => {
     document.querySelector('body').style.backgroundColor = color;
   }
 }
-function nightdayhandler(self){
-  var target = document.querySelector('body');
+const nightdayhandler = (self) => {
+  const target = document.querySelector('body');
   if(self.value === 'night'){
     body.setbackgroundcolor('black');
     body.setcolor('white');
