@@ -1,5 +1,6 @@
 import React from 'react';
 import Nav from './NavClass';
+// import Nav from './NavFunc'; 
 
 function App() {
   return (
