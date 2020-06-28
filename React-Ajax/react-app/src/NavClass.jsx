@@ -19,7 +19,16 @@ class Nav extends Component {
     const listTag = [];
     for(let i=0; i<this.state.list.length; i++) {
       const li = this.state.list[i];
-      listTag.push(<li key={li.id}><a href={li.id}>{li.title}</a></li>)
+      listTag.push(
+      <li key={li.id}>
+        <a href={li.id} data-id={li.id} onClick={(e) => {
+          e.preventDefault();
+          this.props.onClick(e.target.dataset.id);
+        }}>
+          {li.title}
+        </a>
+      </li>
+      );
     }
     return (
       <nav>
