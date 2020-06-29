@@ -1,7 +1,8 @@
 import React, { Component, useState } from 'react';
-import Nav from './NavClass';
-// import Nav from './NavFunc'; 
-import Article from './ArticleClass';
+// import Nav from './NavClass';
+import Nav from './NavFunc'; 
+// import Article from './ArticleClass';
+import Article from './ArticleFunc';
 
 // class App extends Component {
 //   state = {

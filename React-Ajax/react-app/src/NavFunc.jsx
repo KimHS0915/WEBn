@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Nav = () => {
+const Nav = (props) => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -16,7 +16,15 @@ const Nav = () => {
   const listTag = [];
   for(let i=0; i<list.length; i++) {
     const li = list[i];
-    listTag.push(<li key={li.id}><a href={li.id}>{li.title}</a></li>)
+    listTag.push(
+    <li key={li.id}>
+      <a href={li.id} data-id={li.id} onClick={(e) => {
+        e.preventDefault();
+        props.onClick(e.target.dataset.id);
+      }}>
+        {li.title}
+      </a>
+    </li>)
   }
 
   return (
