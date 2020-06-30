@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Nav from './NavFunc'; 
 import Article from './ArticleFunc';
 
@@ -7,11 +7,23 @@ const App = () => {
     title: 'Welcome', 
     desc: 'Hello, React & Ajax',
   });
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    fetch('list.json')
+      .then((result) => {
+        return result.json();
+      })
+      .then((json) => {
+        setList(json);
+      });    
+  }, []);
 
   return (
     <div className="App">
     <h1>WEB</h1>
-    <Nav onClick={(id) => {
+    <Nav list={list} 
+    onClick={(id) => {
       fetch(`${id}.json`)
         .then((result) => {
           return result.json();

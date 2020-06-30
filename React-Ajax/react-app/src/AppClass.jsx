@@ -7,14 +7,26 @@ class App extends Component {
     article: {
       title: 'Welcome', 
       desc: 'Hello, React & Ajax',
-    }
+    },
+    list: [],
+  }
+
+  componentDidMount() {
+    fetch('list.json')
+      .then((result) => {
+        return result.json();
+      })
+      .then((json) => {
+        this.setState({list: json});
+      });
   }
 
   render() {
     return (
       <div className="App">
         <h1>WEB</h1>
-        <Nav onClick={(id) => {
+        <Nav list={this.state.list} 
+        onClick={(id) => {
           fetch(`${id}.json`)
             .then((result) => {
               return result.json();

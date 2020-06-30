@@ -1,24 +1,10 @@
 import React, { Component } from 'react';
 
 class Nav extends Component {
-  state = {
-    list: [],
-  }
-
-  componentDidMount() {
-    fetch('list.json')
-      .then((result) => {
-        return result.json();
-      })
-      .then((json) => {
-        this.setState({list: json});
-      });
-  }
-
   render() {
     const listTag = [];
-    for(let i=0; i<this.state.list.length; i++) {
-      const li = this.state.list[i];
+    for(let i=0; i<this.props.list.length; i++) {
+      const li = this.props.list[i];
       listTag.push(
       <li key={li.id}>
         <a href={li.id} data-id={li.id} onClick={(e) => {
