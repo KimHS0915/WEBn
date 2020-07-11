@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export default class Header extends Component {
+class Header extends Component {
   render() {
     return (
       <header>
-        <h1>WEB</h1>
+        <h1><a href="#welcome" onClick={() => {
+          this.props.onClick();
+        }}>WEB</a></h1>
         World Wide Web
       </header>
     );
   }
 }
+
+export default connect(
+  null,
+  (dispatch) => {
+    return {
+      onClick: () => {
+        dispatch({type: 'CHANGE_MODE', mode: 'WELCOME'})
+      }
+    }
+  } 
+  
+  )(Header);
