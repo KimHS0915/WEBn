@@ -19,7 +19,7 @@ export default connect(
   (dispatch) => {
     return {
       onClick: () => {
-        dispatch({type: 'CHANGE_MODE', mode: 'WELCOME'})
+        dispatch({type: 'WELCOME'})
       }
     }
   } 

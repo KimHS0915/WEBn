@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './components/Header';
-import Nav from './components/Nav';
+import Nav from './containers/NavContainer';
 import Article from './components/Article';
 
 function App() {
