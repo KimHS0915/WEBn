@@ -21,6 +21,12 @@ const reducer = (state=initState, action) => {
   if(action.type === 'READ') {
     return {...state, mode: 'READ', selected_content: action.id}
   }
+  if(action.type === 'CREATE') {
+    return {...state, mode: 'CREATE', selected_content: action.id}
+  }
+  if(action.type === 'UPDATE') {
+    return {...state, mode: 'UPDATE', selected_content: action.id}
+  }
   return state;
 }
 
