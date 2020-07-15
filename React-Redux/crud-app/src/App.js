@@ -1,18 +1,34 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Header from './components/Header';
 import Nav from './containers/NavContainer';
-import Article from './containers/ArticleContainer';
+import Read from './containers/ReadContainer';
 import Control from './containers/ControlContainer';
+import Create from './containers/CreateContainer';
 
-function App() {
-  return (
-    <div className="App">
-      <Header></Header>
-      <Nav></Nav>
-      <Control></Control>
-      <Article></Article>
-    </div>
-  );
+class App extends Component {
+  render() {
+    let article;
+    if(this.props.mode === 'CREATE') {
+      article = <Create></Create>
+    } else if(this.props.mode === 'READ' || 'WELCOME') {
+      article = <Read></Read>
+    }
+    return (
+      <div className="App">
+        <Header></Header>
+        <Nav></Nav>
+        <Control></Control>
+        {article}
+      </div>
+    );
+  }
 }
 
-export default App;
+export default connect(
+  (state) => {
+    return {
+      mode: state.mode
+    }
+  }
+)(App);
