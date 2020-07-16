@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 export default class Update extends Component {
   state = {
     title: this.props.title,
@@ -19,11 +18,12 @@ export default class Update extends Component {
         this.props.onSubmit(
           e.target.title.value,
           e.target.desc.value,
+          e.target.id.value,
         );
       }}>
         <input type="hidden" name="id" value={this.state.id}></input>
         <p><input type="text" name="title" onChange={this.OnChangeHandler.bind(this)} placeholder="title" value={this.state.title}></input></p>
-        <p><textarea type="text" name="desc" placeholder="description" value={this.state.desc}></textarea></p>
+        <p><textarea type="text" name="desc" onChange={this.OnChangeHandler.bind(this)} placeholder="description" value={this.state.desc}></textarea></p>
         <p><input type="submit"></input></p>
       </form>
     );

@@ -44,7 +44,7 @@ const reducer = (state=initState, action) => {
     }
   }
   if(action.type === 'UPDATE') {
-    return {...state, mode: 'UPDATE', selected_content: action.id}
+    return {...state, mode: 'UPDATE'}
   }
   return state;
 }
