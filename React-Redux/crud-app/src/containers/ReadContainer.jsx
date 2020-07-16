@@ -9,7 +9,7 @@ export default connect(
       desc = state.welcome_content.desc;
     } else {
       for(let i=0; i<state.contents.length; i++) {
-        if(state.contents[i].id === Number(state.selected_content)) {
+        if(state.contents[i].id === state.selected_content) {
           title = state.contents[i].title;
           desc = state.contents[i].desc;
           break;

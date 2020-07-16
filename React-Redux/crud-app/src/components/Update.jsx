@@ -16,9 +16,9 @@ export default class Update extends Component {
       <form onSubmit={(e) => {
         e.preventDefault();
         this.props.onSubmit(
+          Number(e.target.id.value),
           e.target.title.value,
           e.target.desc.value,
-          e.target.id.value,
         );
       }}>
         <input type="hidden" name="id" value={this.state.id}></input>
