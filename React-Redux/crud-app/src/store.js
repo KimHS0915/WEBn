@@ -63,6 +63,19 @@ const reducer = (state=initState, action) => {
       selected_content: action.id,
     }
   }
+  if(action.type === 'DELETE_PROCESS') {
+    const newContents = state.contents.filter((e) => {
+      if(e.id === state.selected_content) {
+        return false;
+      }
+      return true;      
+    });
+    return {
+      ...state,
+      contents: newContents,
+      mode: 'WELCOME'
+    }
+  }
   return state;
 }
 

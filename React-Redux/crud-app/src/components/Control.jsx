@@ -14,7 +14,7 @@ export default class Control extends Component {
         }}>Update</a></li>
         <li>
           <input type="button" value="Delete" onClick={(e) => {
-            this.props.onClick('DELETE');
+            this.props.onClick('DELETE_PROCESS');
             e.preventDefault();
           }}></input>
         </li>
