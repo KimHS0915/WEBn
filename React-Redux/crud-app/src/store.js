@@ -43,10 +43,11 @@ const reducer = (state=initState, action) => {
       selected_content: newId,
     }
   }
-  if(action.type === 'UPDATE' && !state.selected_content) {
-    alert('Select Article');
-    return {...state}
-  } else if(action.type === 'UPDATE' && state.selected_content) {
+  if(action.type === 'UPDATE') {
+    if(!state.selected_content) {
+      alert('Select Article');
+      return {...state}
+    }
     return {...state, mode: 'UPDATE'}
   }
   if(action.type === 'UPDATE_PROCESS') {
@@ -66,12 +67,13 @@ const reducer = (state=initState, action) => {
       selected_content: action.id,
     }
   }
-  if(action.type === 'DELETE_PROCESS' && !state.selected_content) {
-    alert('Select Article');
-    // return { ...state}
-  } else if(action.type === 'DELETE_PROCESS' && state.selected_content) {
+  if(action.type === 'DELETE_PROCESS') {
+    if(!state.selected_content) {
+      alert('Select Article');
+      return {...state}
+    }
     if(!window.confirm('Are you sure?')) {
-      return;
+      return {...state}
     }
     const newContents = state.contents.filter((e) => {
       if(e.id === state.selected_content) {
