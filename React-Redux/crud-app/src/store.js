@@ -17,7 +17,7 @@ const initState = {
 
 const reducer = (state=initState, action) => {
   if(action.type === 'WELCOME') {
-    return {...state, mode: 'WELCOME'}
+    return {...state, mode: 'WELCOME', selected_content: null}
   }
   if(action.type === 'READ') {
     return {...state, mode: 'READ', selected_content: action.id}
@@ -43,7 +43,10 @@ const reducer = (state=initState, action) => {
       selected_content: newId,
     }
   }
-  if(action.type === 'UPDATE') {
+  if(action.type === 'UPDATE' && !state.selected_content) {
+    alert('Select Article');
+    return {...state}
+  } else if(action.type === 'UPDATE' && state.selected_content) {
     return {...state, mode: 'UPDATE'}
   }
   if(action.type === 'UPDATE_PROCESS') {
@@ -63,7 +66,13 @@ const reducer = (state=initState, action) => {
       selected_content: action.id,
     }
   }
-  if(action.type === 'DELETE_PROCESS') {
+  if(action.type === 'DELETE_PROCESS' && !state.selected_content) {
+    alert('Select Article');
+    // return { ...state}
+  } else if(action.type === 'DELETE_PROCESS' && state.selected_content) {
+    if(!window.confirm('Are you sure?')) {
+      return;
+    }
     const newContents = state.contents.filter((e) => {
       if(e.id === state.selected_content) {
         return false;
