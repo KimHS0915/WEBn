@@ -84,7 +84,8 @@ const reducer = (state=initState, action) => {
     return {
       ...state,
       contents: newContents,
-      mode: 'WELCOME'
+      mode: 'WELCOME',
+      selected_content: null,
     }
   }
   return state;
